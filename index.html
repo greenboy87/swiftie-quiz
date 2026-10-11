@@ -44,18 +44,6 @@ const FRAGEN = [
     erklaerung: "Die 13 – sie hat am 13. Dezember Geburtstag."
   },
   {
-    frage: "Wohin zog ihre Familie 2004, damit sie Musikerin werden konnte?",
-    antworten: ["Nach Los Angeles", "In die Nähe von Nashville", "Nach New York", "Nach London"],
-    richtig: 1,
-    erklaerung: "Nashville gilt als Hauptstadt der Country-Musik."
-  },
-  {
-    frage: "Wo ist Taylor Swift aufgewachsen?",
-    antworten: ["Auf einer Weihnachtsbaum-Farm", "In einem Hotel", "Auf einem Schiff", "In einem Tonstudio"],
-    richtig: 0,
-    erklaerung: "Die Farm lag in Pennsylvania."
-  },
-  {
     frage: "Welches Album war ihr erstes reines Pop-Album?",
     antworten: ["Red", "Fearless", "1989", "Folklore"],
     richtig: 2,
@@ -68,22 +56,10 @@ const FRAGEN = [
     erklaerung: "Mit den neuen Aufnahmen gehörte ihr ihre Musik wieder selbst. 2025 kaufte sie auch die alten zurück."
   },
   {
-    frage: "Welche zwei ruhigen Folk-Alben erschienen 2020 innerhalb weniger Monate?",
-    antworten: ["Lover & Red", "Folklore & Evermore", "Fearless & Speak Now", "1989 & Reputation"],
-    richtig: 1,
-    erklaerung: "Beide entstanden während der Corona-Pandemie."
-  },
-  {
     frage: "Was war die „Eras Tour“?",
     antworten: ["Ihre erste Club-Tour", "Die erfolgreichste Konzerttournee aller Zeiten", "Eine Casting-Show", "Ein Album"],
     richtig: 1,
     erklaerung: "149 Konzerte von 2023 bis 2024 mit Songs aus allen Phasen ihrer Karriere."
-  },
-  {
-    frage: "Wie oft hat sie den Grammy „Album des Jahres“ gewonnen?",
-    antworten: ["1-mal", "2-mal", "4-mal", "10-mal"],
-    richtig: 2,
-    erklaerung: "Viermal – so oft wie niemand sonst."
   },
   {
     frage: "Womit beginnt der Song „Cruel Summer“?",
@@ -114,6 +90,36 @@ const FRAGEN = [
     antworten: ["Midnights", "The Life of a Showgirl", "Lover", "Speak Now"],
     richtig: 1,
     erklaerung: "Die erste Single daraus war The Fate of Ophelia."
+  },
+
+  /* ---------- Allgemeinwissen (tag: zeigt oben ein Schild mit diesem Text) ---------- */
+  {
+    frage: "Aus welchem Land kommt Taylor Swift?",
+    antworten: ["Kanada", "USA", "England", "Australien"],
+    richtig: 1,
+    erklaerung: "Sie stammt aus dem US-Bundesstaat Pennsylvania.",
+    tag: "Allgemeinwissen"
+  },
+  {
+    frage: "Wie viele Saiten hat eine normale Gitarre?",
+    antworten: ["4", "6", "8", "10"],
+    richtig: 1,
+    erklaerung: "Sechs – auf der Gitarre schrieb Taylor Swift schon als Teenager ihre ersten Songs.",
+    tag: "Allgemeinwissen"
+  },
+  {
+    frage: "Was ist eine „Single“ in der Musik?",
+    antworten: ["Ein Lied, das man allein singt", "Ein einzelner Song, der vorab veröffentlicht wird", "Das letzte Lied eines Konzerts", "Ein Album mit nur einer Sängerin"],
+    richtig: 1,
+    erklaerung: "Singles sollen neugierig auf das ganze Album machen.",
+    tag: "Allgemeinwissen"
+  },
+  {
+    frage: "Wie heißt der wichtigste Musikpreis der USA?",
+    antworten: ["Oscar", "Grammy", "Emmy", "Bambi"],
+    richtig: 1,
+    erklaerung: "Oscars gibt es für Filme, Emmys fürs Fernsehen – Grammys für Musik.",
+    tag: "Allgemeinwissen"
   },
 
   /* ---------- Bonusfragen (bonus: true zeigt oben ein „Bonus“-Schild) ---------- */
@@ -914,7 +920,12 @@ function renderQuestion(animate = true) {
     const r = state.rounds[state.idx], total = state.rounds.length;
     state.revealed = false; state.chosen = null; state.teamRight = new Set();
     $("progressText").textContent = `Frage ${state.idx + 1} / ${total}`;
-    if (r.q.bonus) $("progressText").insertAdjacentHTML("beforeend", ' <span class="bonus-tag">Bonus</span>');
+    const tag = r.q.tag || (r.q.bonus ? "Bonus" : "");
+    if (tag) {
+      const t = document.createElement("span");
+      t.className = "bonus-tag"; t.textContent = tag;
+      $("progressText").append(" ", t);
+    }
     $("progressBar").style.width = (state.idx / total * 100) + "%";
     $("ptsText").textContent = state.mode === "team" ? "" : `${state.score} ${state.score === 1 ? "Punkt" : "Punkte"}`;
     $("question").textContent = r.q.frage;
@@ -970,7 +981,7 @@ function fitQuiz() {
   const card = $("qcard"), root = document.documentElement;
   let fit = 1;
   card.style.setProperty("--fit", fit);
-  while (root.scrollHeight > window.innerHeight + 1 && fit > 0.62) {
+  while (root.scrollHeight > window.innerHeight && fit > 0.62) {
     fit -= 0.04;
     card.style.setProperty("--fit", fit.toFixed(2));
   }

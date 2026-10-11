@@ -1,6 +1,6 @@
 # Swiftie-Quiz
 
-Ein Musik-Quiz für den Unterricht: 15 Fragen rund um Taylor Swift, ihre Karriere und ein bisschen Songaufbau (Strophe, Refrain, Bridge …), dazu 5 Bonusfragen, die man nicht aus der Stunde kennt (Hochzeit, Haustiere, Fan-Kultur …).
+Ein Musik-Quiz für den Unterricht: 11 Fragen rund um Taylor Swift, ihre Karriere und ein bisschen Songaufbau (Strophe, Refrain, Bridge …), 4 Fragen aus dem Allgemeinwissen und 5 Bonusfragen, die man nicht aus der Stunde kennt (Hochzeit, Haustiere, Fan-Kultur …).
 
 **Zur Seite:** https://greenboy87.github.io/swiftie-quiz/
 
@@ -34,7 +34,7 @@ Alles steckt in **einer Datei**: `index.html`. Ganz oben steht die Liste `FRAGEN
 
 - Immer genau **4 Antworten**. Die Reihenfolge wird beim Spielen automatisch gemischt, du kannst also die richtige Antwort an jede Stelle schreiben.
 - `richtig` zählt **ab 0**.
-- Optional `bonus: true` dazuschreiben: Dann steht bei der Frage oben ein goldenes „Bonus“-Schild.
+- Optional `bonus: true` dazuschreiben: Dann steht bei der Frage oben ein goldenes „Bonus“-Schild. Mit `tag: "Allgemeinwissen"` (oder einem anderen Wort) erscheint stattdessen dieser Text auf dem Schild.
 - Fragen hinzufügen oder löschen geht einfach so. Fortschrittsanzeige und Level-Grenzen passen sich an die Anzahl an.
 - Texte für die Level stehen direkt darunter in `LEVELS`, die Timer-Länge in `TIMER_SEKUNDEN`.
 
