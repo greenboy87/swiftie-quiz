@@ -1,6 +1,6 @@
 # Swiftie-Quiz
 
-Ein Musik-Quiz für den Unterricht: 15 Fragen rund um Taylor Swift, ihre Karriere und ein bisschen Songaufbau (Strophe, Refrain, Bridge …).
+Ein Musik-Quiz für den Unterricht: 15 Fragen rund um Taylor Swift, ihre Karriere und ein bisschen Songaufbau (Strophe, Refrain, Bridge …), dazu 5 Bonusfragen, die man nicht aus der Stunde kennt (Hochzeit, Haustiere, Fan-Kultur …).
 
 **Zur Seite:** https://greenboy87.github.io/swiftie-quiz/
 
@@ -16,7 +16,8 @@ Der QR-Code auf dem Startbildschirm führt direkt in den iPad-Modus. Er wird in 
 
 Optional gibt es einen 20-Sekunden-Timer: kein Ticken, nur ein kurzer Ton am Ende.
 
-**Swiftie-Level:** 0–5 Newcomer · 6–10 Fan · 11–13 Swiftie · 14–15 Mastermind
+**Swiftie-Level** (bei 20 Fragen): 0–7 Newcomer · 8–14 Fan · 15–18 Swiftie · 19–20 Mastermind
+Die Grenzen sind für 15 Fragen festgelegt (0–5 · 6–10 · 11–13 · 14–15) und werden bei einer anderen Fragenzahl automatisch umgerechnet.
 
 ## Fragen ändern
 
@@ -33,6 +34,7 @@ Alles steckt in **einer Datei**: `index.html`. Ganz oben steht die Liste `FRAGEN
 
 - Immer genau **4 Antworten**. Die Reihenfolge wird beim Spielen automatisch gemischt, du kannst also die richtige Antwort an jede Stelle schreiben.
 - `richtig` zählt **ab 0**.
+- Optional `bonus: true` dazuschreiben: Dann steht bei der Frage oben ein goldenes „Bonus“-Schild.
 - Fragen hinzufügen oder löschen geht einfach so. Fortschrittsanzeige und Level-Grenzen passen sich an die Anzahl an.
 - Texte für die Level stehen direkt darunter in `LEVELS`, die Timer-Länge in `TIMER_SEKUNDEN`.
 

@@ -114,11 +114,49 @@ const FRAGEN = [
     antworten: ["Midnights", "The Life of a Showgirl", "Lover", "Speak Now"],
     richtig: 1,
     erklaerung: "Die erste Single daraus war The Fate of Ophelia."
+  },
+
+  /* ---------- Bonusfragen (bonus: true zeigt oben ein „Bonus“-Schild) ---------- */
+  {
+    frage: "Mit wem ist Taylor Swift verheiratet?",
+    antworten: ["Harry Styles", "Travis Kelce", "Ed Sheeran", "Shawn Mendes"],
+    richtig: 1,
+    erklaerung: "Der Football-Star der Kansas City Chiefs – die Hochzeit war am 3. Juli 2026 in New York.",
+    bonus: true
+  },
+  {
+    frage: "Welche Haustiere hat Taylor Swift?",
+    antworten: ["Zwei Hunde", "Drei Katzen", "Ein Pferd", "Einen Papagei"],
+    richtig: 1,
+    erklaerung: "Meredith, Olivia und Benjamin – alle drei sind nach Figuren aus Serien und Filmen benannt.",
+    bonus: true
+  },
+  {
+    frage: "Nach wem wurde Taylor Swift benannt?",
+    antworten: ["Nach ihrer Oma", "Nach dem Sänger James Taylor", "Nach einer Filmfigur", "Nach einer Stadt"],
+    richtig: 1,
+    erklaerung: "Ihre Eltern waren Fans des Folk-Sängers James Taylor.",
+    bonus: true
+  },
+  {
+    frage: "Welche Auszeichnung bekam sie 2023 vom Time Magazine?",
+    antworten: ["Sportlerin des Jahres", "Person des Jahres", "Erfinderin des Jahres", "Schauspielerin des Jahres"],
+    richtig: 1,
+    erklaerung: "Das Magazin kürt jedes Jahr die Person, die die Welt am meisten bewegt hat.",
+    bonus: true
+  },
+  {
+    frage: "Was tauschten Fans bei der Eras Tour untereinander?",
+    antworten: ["Autogrammkarten", "Freundschaftsarmbänder", "Sticker", "Plüschtiere"],
+    richtig: 1,
+    erklaerung: "Die Idee stammt aus einer Zeile in einem ihrer Songs – Tausende Armbänder wechselten den Besitzer.",
+    bonus: true
   }
 ];
 
 /* Swiftie-Level: "ab" = ab wie vielen Punkten (bei 15 Fragen).
    Bei einer anderen Fragenzahl werden die Grenzen automatisch umgerechnet. */
+/* Bei 20 Fragen ergibt das: 0–7 Newcomer · 8–14 Fan · 15–18 Swiftie · 19–20 Mastermind */
 const LEVELS = [
   { ab: 0,  name: "Newcomer",   text: "Der Vorhang ist offen – deine Ära fängt gerade erst an!" },
   { ab: 6,  name: "Fan",        text: "Du kennst dich schon gut aus. Noch ein paar Songs, dann bist du ganz vorne dabei." },
@@ -291,6 +329,7 @@ kbd { font: inherit; font-weight: 600; background: var(--card-2); border: 1px so
 .topbar { display: flex; align-items: center; gap: 16px; }
 .progress { flex: 1; min-width: min(240px, 40vw); }
 .progress-text { font-weight: 700; font-size: var(--fs-progress); display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.bonus-tag { display: inline-block; margin-left: .5em; padding: .05em .6em; border-radius: 99px; background: var(--gold); color: var(--ink); font-size: .7em; font-weight: 700; vertical-align: .15em; letter-spacing: .03em; }
 .progress-text .pts { color: var(--muted); font-weight: 600; font-size: .85em; white-space: nowrap; }
 .bar { height: 10px; border-radius: 99px; background: rgba(216,198,234,.15); overflow: hidden; margin-top: 8px; }
 .bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--pink), #E883B8); border-radius: inherit; transition: width .5s var(--ease); }
@@ -875,6 +914,7 @@ function renderQuestion(animate = true) {
     const r = state.rounds[state.idx], total = state.rounds.length;
     state.revealed = false; state.chosen = null; state.teamRight = new Set();
     $("progressText").textContent = `Frage ${state.idx + 1} / ${total}`;
+    if (r.q.bonus) $("progressText").insertAdjacentHTML("beforeend", ' <span class="bonus-tag">Bonus</span>');
     $("progressBar").style.width = (state.idx / total * 100) + "%";
     $("ptsText").textContent = state.mode === "team" ? "" : `${state.score} ${state.score === 1 ? "Punkt" : "Punkte"}`;
     $("question").textContent = r.q.frage;
