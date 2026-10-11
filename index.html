@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src data:; connect-src 'none'; form-action 'none'; base-uri 'none'">
+<meta name="theme-color" content="#1A0F2E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="description" content="Musik-Quiz für den Unterricht: 15 Fragen rund um Taylor Swift – für Beamer, Teams und iPad.">
+<title>Swiftie-Quiz</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%231A0F2E' stroke='%23F6C177' stroke-width='5'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='28' font-weight='700' fill='%23F6C177' text-anchor='middle'%3E13%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap">
+
+<script>
+/* =====================================================================
+   FRAGEN – hier kannst du alles ändern.
+   Jede Frage hat:
+     frage:      der Fragetext
+     antworten:  genau 4 Antworten (die Reihenfolge wird beim Spielen gemischt)
+     richtig:    Nummer der richtigen Antwort in der Liste: 0 = erste, 1 = zweite, 2 = dritte, 3 = vierte
+     erklaerung: ein kurzer Satz, der nach dem Auflösen erscheint
+   ===================================================================== */
+const FRAGEN = [
+  {
+    frage: "Mit welchem Musikstil begann Taylor Swifts Karriere?",
+    antworten: ["Hip-Hop", "Country", "Folk", "Rock"],
+    richtig: 1,
+    erklaerung: "Ihr erstes Album (2006) war reine Country-Musik."
+  },
+  {
+    frage: "In welchem Jahr wurde sie geboren?",
+    antworten: ["1986", "1989", "1992", "1995"],
+    richtig: 1,
+    erklaerung: "13. Dezember 1989 – nach ihrem Geburtsjahr hat sie sogar ein Album benannt."
+  },
+  {
+    frage: "Welche Zahl gilt als ihre Glückszahl?",
+    antworten: ["7", "13", "21", "99"],
+    richtig: 1,
+    erklaerung: "Die 13 – sie hat am 13. Dezember Geburtstag."
+  },
+  {
+    frage: "Wohin zog ihre Familie 2004, damit sie Musikerin werden konnte?",
+    antworten: ["Nach Los Angeles", "In die Nähe von Nashville", "Nach New York", "Nach London"],
+    richtig: 1,
+    erklaerung: "Nashville gilt als Hauptstadt der Country-Musik."
+  },
+  {
+    frage: "Wo ist Taylor Swift aufgewachsen?",
+    antworten: ["Auf einer Weihnachtsbaum-Farm", "In einem Hotel", "Auf einem Schiff", "In einem Tonstudio"],
+    richtig: 0,
+    erklaerung: "Die Farm lag in Pennsylvania."
+  },
+  {
+    frage: "Welches Album war ihr erstes reines Pop-Album?",
+    antworten: ["Red", "Fearless", "1989", "Folklore"],
+    richtig: 2,
+    erklaerung: "1989 erschien 2014 – Songs wie Shake It Off wurden Welthits."
+  },
+  {
+    frage: "Warum nahm sie ihre alten Alben noch einmal auf („Taylor’s Version“)?",
+    antworten: ["Ihre Stimme klang besser", "Die Rechte an den Original-Aufnahmen gehörten jemand anderem", "Die Plattenfirma verlangte es", "Für einen Kinofilm"],
+    richtig: 1,
+    erklaerung: "Mit den neuen Aufnahmen gehörte ihr ihre Musik wieder selbst. 2025 kaufte sie auch die alten zurück."
+  },
+  {
+    frage: "Welche zwei ruhigen Folk-Alben erschienen 2020 innerhalb weniger Monate?",
+    antworten: ["Lover & Red", "Folklore & Evermore", "Fearless & Speak Now", "1989 & Reputation"],
+    richtig: 1,
+    erklaerung: "Beide entstanden während der Corona-Pandemie."
+  },
+  {
+    frage: "Was war die „Eras Tour“?",
+    antworten: ["Ihre erste Club-Tour", "Die erfolgreichste Konzerttournee aller Zeiten", "Eine Casting-Show", "Ein Album"],
+    richtig: 1,
+    erklaerung: "149 Konzerte von 2023 bis 2024 mit Songs aus allen Phasen ihrer Karriere."
+  },
+  {
+    frage: "Wie oft hat sie den Grammy „Album des Jahres“ gewonnen?",
+    antworten: ["1-mal", "2-mal", "4-mal", "10-mal"],
+    richtig: 2,
+    erklaerung: "Viermal – so oft wie niemand sonst."
+  },
+  {
+    frage: "Womit beginnt der Song „Cruel Summer“?",
+    antworten: ["Mit einem Klavier-Solo", "Mit einem Banjo", "Mit einem elektronischen Stimm-Sample", "Mit Streichern"],
+    richtig: 2,
+    erklaerung: "Das Sample kehrt später in der Strophe wieder."
+  },
+  {
+    frage: "Welches Instrument hört man in „Picture to Burn“ neben den Gitarren?",
+    antworten: ["Banjo", "Saxofon", "Harfe", "Orgel"],
+    richtig: 0,
+    erklaerung: "Typisch für Country-Musik."
+  },
+  {
+    frage: "Welcher Songteil folgt in „I Knew You Were Trouble“ direkt auf den Refrain?",
+    antworten: ["Postchorus", "Bridge", "Prechorus", "Strophe"],
+    richtig: 0,
+    erklaerung: "Dort setzt der verzerrte Synthesizer-Sound ein."
+  },
+  {
+    frage: "Was ist eine „Bridge“ in einem Popsong?",
+    antworten: ["Der erste Teil", "Ein neuer Teil vor dem letzten Refrain", "Das Gitarrensolo am Anfang", "Der Schluss"],
+    richtig: 1,
+    erklaerung: "Die Bridge bringt Abwechslung, bevor der Refrain ein letztes Mal kommt."
+  },
+  {
+    frage: "Wie heißt ihr Album aus dem Jahr 2025?",
+    antworten: ["Midnights", "The Life of a Showgirl", "Lover", "Speak Now"],
+    richtig: 1,
+    erklaerung: "Die erste Single daraus war The Fate of Ophelia."
+  }
+];
+
+/* Swiftie-Level: "ab" = ab wie vielen Punkten (bei 15 Fragen).
+   Bei einer anderen Fragenzahl werden die Grenzen automatisch umgerechnet. */
+const LEVELS = [
+  { ab: 0,  name: "Newcomer",   text: "Der Vorhang ist offen – deine Ära fängt gerade erst an!" },
+  { ab: 6,  name: "Fan",        text: "Du kennst dich schon gut aus. Noch ein paar Songs, dann bist du ganz vorne dabei." },
+  { ab: 11, name: "Swiftie",    text: "Stark! Du weißt richtig viel über Taylor Swift und ihre Musik." },
+  { ab: 14, name: "Mastermind", text: "Wow – fast alles gewusst. Du bist bereit für die große Bühne!" }
+];
+
+const TIMER_SEKUNDEN = 20;
+const SEITEN_URL = "https://greenboy87.github.io/swiftie-quiz/";
+</script>
+
+<style>
+:root {
+  --bg1: #1A0F2E;
+  --bg2: #3B1A4C;
+  --card: #24163A;
+  --card-2: #2D1C47;
+  --border: #4A3263;
+  --text: #FFFFFF;
+  --muted: #D8C6EA;
+  --gold: #F6C177;
+  --gold-dark: #E2A24F;
+  --pink: #D45D9A;
+  --ink: #1A0F2E;
+  --radius: 22px;
+  --ease: cubic-bezier(.22,.8,.32,1);
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--bg1) linear-gradient(160deg, var(--bg1) 0%, #2A1340 55%, var(--bg2) 100%) fixed;
+  color: var(--text);
+  font-family: "Poppins", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.35;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow-x: hidden;
+}
+button { font: inherit; color: inherit; }
+:focus { outline: none; }
+:focus-visible { outline: 4px solid var(--gold); outline-offset: 4px; border-radius: 14px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+[hidden] { display: none !important; }
+
+/* ---------- Bühnen-Hintergrund ---------- */
+#stage { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+#stage::before {            /* Scheinwerfer-Kegel von oben */
+  content: ""; position: absolute; inset: -20% -10% auto -10%; height: 90%;
+  background:
+    radial-gradient(ellipse 30% 60% at 22% 0%, rgba(216,198,234,.10), transparent 70%),
+    radial-gradient(ellipse 30% 60% at 78% 0%, rgba(212,93,154,.10), transparent 70%),
+    radial-gradient(ellipse 40% 50% at 50% 0%, rgba(246,193,119,.07), transparent 70%);
+}
+#stage::after {             /* Bühnenkante unten */
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 30%;
+  background: radial-gradient(ellipse 70% 100% at 50% 100%, rgba(212,93,154,.16), transparent 70%);
+}
+.bokeh {
+  position: absolute; border-radius: 50%;
+  background: radial-gradient(circle, var(--c) 0%, transparent 68%);
+  opacity: .5; filter: blur(2px);
+  animation: drift var(--d) ease-in-out infinite alternate;
+}
+.star {
+  position: absolute; background: var(--c, #fff);
+  clip-path: polygon(50% 0, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0 50%, 40% 40%);
+  opacity: .2;
+  animation: twinkle var(--d) ease-in-out infinite;
+  animation-delay: var(--delay);
+}
+@keyframes drift { from { transform: translate(0,0); } to { transform: translate(var(--dx), var(--dy)); } }
+@keyframes twinkle { 0%,100% { opacity: .15; transform: scale(.7); } 50% { opacity: .9; transform: scale(1); } }
+
+/* ---------- Grundlayout ---------- */
+#app {
+  position: relative; z-index: 1;
+  min-height: 100vh; min-height: 100dvh;
+  display: flex; flex-direction: column;
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(16px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+}
+.screen { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 1500px; margin: 0 auto; }
+.screen.fade-in { animation: screenIn .45s var(--ease) both; }
+@keyframes screenIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+.card {
+  background: rgba(36,22,58,.92);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 20px 60px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5em;
+  min-height: 56px; min-width: 56px; padding: .6em 1.5em;
+  border-radius: 999px; border: 2px solid transparent;
+  font-weight: 700; font-size: 1.15rem; letter-spacing: .01em;
+  cursor: pointer; user-select: none; -webkit-user-select: none;
+  transition: transform .15s var(--ease), background-color .2s, box-shadow .2s, opacity .2s;
+  touch-action: manipulation;
+}
+.btn:active { transform: scale(.97); }
+.btn-gold { background: var(--gold); color: var(--ink); box-shadow: 0 6px 24px rgba(246,193,119,.28); }
+.btn-gold:hover { background: #F9CF92; }
+.btn-gold:focus-visible { outline-color: #fff; }
+.btn-ghost { background: transparent; border-color: var(--border); color: var(--muted); }
+.btn-ghost:hover { border-color: var(--muted); color: #fff; }
+
+.emblem { display: block; flex: none; }
+
+/* ---------- Startbildschirm ---------- */
+#start { justify-content: center; gap: clamp(16px, 3vh, 32px); }
+.start-head { display: flex; align-items: center; justify-content: center; gap: clamp(14px, 2vw, 28px); text-align: left; }
+.start-head .emblem { width: clamp(72px, 10vh, 120px); height: auto; filter: drop-shadow(0 0 18px rgba(246,193,119,.35)); }
+.start-head h1 { margin: 0; font-size: clamp(2.2rem, 5vw, 4.4rem); line-height: 1.05; letter-spacing: -.01em; }
+.start-head h1 span { color: var(--gold); }
+.start-head p { margin: .3em 0 0; color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.4rem); }
+
+.start-grid { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: clamp(16px, 2.5vw, 32px); align-items: stretch; }
+.start-settings { padding: clamp(18px, 2.5vw, 32px); display: flex; flex-direction: column; gap: clamp(14px, 2vh, 22px); }
+fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+legend, .label { font-weight: 600; color: var(--muted); font-size: 1rem; margin-bottom: .6em; padding: 0; letter-spacing: .04em; text-transform: uppercase; }
+
+.modes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.choice { position: relative; display: block; cursor: pointer; }
+.choice input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+.choice .box {
+  height: 100%; padding: 14px 16px; border-radius: 16px;
+  border: 2px solid var(--border); background: var(--card-2);
+  display: flex; flex-direction: column; gap: 4px; min-height: 56px;
+  transition: border-color .2s, background-color .2s;
+}
+.choice .box b { font-size: 1.2rem; display: flex; align-items: center; gap: .45em; }
+.choice .box small { color: var(--muted); font-size: .92rem; }
+.choice .ico { width: 1.3em; height: 1.3em; flex: none; color: var(--pink); }
+.choice input:checked + .box { border-color: var(--gold); background: rgba(246,193,119,.10); }
+.choice input:checked + .box .ico { color: var(--gold); }
+.choice input:focus-visible + .box { outline: 4px solid var(--gold); outline-offset: 3px; }
+.choice:hover .box { border-color: var(--muted); }
+
+.row { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; }
+.teamcount { display: flex; gap: 10px; }
+.teamcount .choice .box { min-width: 64px; align-items: center; justify-content: center; font-weight: 700; font-size: 1.25rem; padding: 8px 18px; }
+
+.switch { display: inline-flex; align-items: center; gap: 14px; cursor: pointer; min-height: 56px; font-size: 1.1rem; }
+.switch input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.switch .track { width: 60px; height: 34px; border-radius: 99px; background: var(--card-2); border: 2px solid var(--border); position: relative; transition: background-color .2s, border-color .2s; flex: none; }
+.switch .track::after { content: ""; position: absolute; top: 4px; left: 4px; width: 22px; height: 22px; border-radius: 50%; background: var(--muted); transition: transform .25s var(--ease), background-color .2s; }
+.switch input:checked + .track { background: rgba(246,193,119,.25); border-color: var(--gold); }
+.switch input:checked + .track::after { transform: translateX(26px); background: var(--gold); }
+.switch input:focus-visible + .track { outline: 4px solid var(--gold); outline-offset: 3px; }
+.switch small { display: block; color: var(--muted); font-size: .88rem; }
+
+.start-actions { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+.start-actions .btn-gold { font-size: clamp(1.25rem, 2vw, 1.6rem); padding: .6em 2.2em; min-height: 64px; }
+.keyhint { color: var(--muted); font-size: .95rem; }
+kbd { font: inherit; font-weight: 600; background: var(--card-2); border: 1px solid var(--border); border-bottom-width: 3px; border-radius: 7px; padding: 0 .4em; color: #fff; }
+
+.start-qr { padding: clamp(18px, 2.5vw, 28px); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 12px; }
+.qr-frame { background: #fff; border-radius: 18px; padding: 10px; width: min(100%, 300px, 34vh); aspect-ratio: 1; box-shadow: 0 0 0 4px var(--gold), 0 0 40px rgba(246,193,119,.25); }
+.qr-frame svg { display: block; width: 100%; height: 100%; }
+.start-qr h2 { margin: 6px 0 0; font-size: 1.35rem; }
+.start-qr p { margin: 0; color: var(--muted); font-size: .95rem; word-break: break-all; }
+.privacy { text-align: center; color: var(--muted); font-size: .9rem; margin: 0; opacity: .85; }
+
+/* ---------- Quiz ---------- */
+#quiz { gap: clamp(10px, 1.8vh, 20px); }
+.topbar { display: flex; align-items: center; gap: 16px; }
+.progress { flex: 1; min-width: min(240px, 40vw); }
+.progress-text { font-weight: 700; font-size: var(--fs-progress); display: flex; justify-content: space-between; gap: 12px; align-items: baseline; }
+.progress-text .pts { color: var(--muted); font-weight: 600; font-size: .85em; white-space: nowrap; }
+.bar { height: 10px; border-radius: 99px; background: rgba(216,198,234,.15); overflow: hidden; margin-top: 8px; }
+.bar > i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--pink), #E883B8); border-radius: inherit; transition: width .5s var(--ease); }
+.icon-btn { width: 56px; height: 56px; padding: 0; border-radius: 50%; border: 2px solid var(--border); background: rgba(36,22,58,.8); color: var(--muted); cursor: pointer; display: grid; place-items: center; flex: none; }
+.icon-btn:hover { color: #fff; border-color: var(--muted); }
+.icon-btn svg { width: 24px; height: 24px; }
+.topbar .emblem { width: 56px; height: 56px; }
+
+.scores { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.score-chip { display: flex; align-items: center; gap: .55em; padding: .35em .9em .35em .5em; border-radius: 99px; background: var(--card); border: 2px solid var(--border); font-weight: 600; font-size: var(--fs-chip); }
+.score-chip .dot { width: 1.1em; height: 1.1em; border-radius: 50%; background: var(--team); flex: none; }
+.score-chip b { color: var(--gold); min-width: 1.2em; text-align: right; }
+.score-chip.bump b { animation: bump .5s var(--ease); }
+@keyframes bump { 40% { transform: scale(1.5); } }
+
+.timer { display: flex; align-items: center; gap: 12px; color: var(--muted); font-weight: 600; font-size: calc(var(--fs-chip) * .85); margin-top: 6px; }
+.timer .bar { flex: 1; margin: 0; height: 8px; }
+.timer .bar > i { background: linear-gradient(90deg, var(--gold), #F9D7A5); transition: none; }
+.timer.done { color: var(--gold); }
+.timer-num { min-width: 3.5em; text-align: right; font-variant-numeric: tabular-nums; }
+
+.qcard { flex: 1; display: flex; flex-direction: column; padding: clamp(18px, 2.6vw, 44px); gap: clamp(14px, 2.4vh, 30px); }
+.qcard.out { animation: cardOut .22s ease-in both; }
+.qcard.in { animation: cardIn .4s var(--ease) both; }
+@keyframes cardOut { to { opacity: 0; transform: translateX(-40px); } }
+@keyframes cardIn { from { opacity: 0; transform: translateX(48px); } to { opacity: 1; transform: none; } }
+
+.question { margin: 0; font-size: calc(var(--fs-q) * var(--fit, 1)); line-height: 1.2; font-weight: 700; text-wrap: balance; }
+.answers { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(10px, 1.6vw, 22px); flex: 1; align-content: center; }
+.answer {
+  display: flex; align-items: center; gap: .7em; text-align: left;
+  min-height: 64px; padding: .55em .9em .55em .55em;
+  border-radius: 18px; border: 2px solid var(--border); background: var(--card-2);
+  font-size: calc(var(--fs-a) * var(--fit, 1)); font-weight: 600; line-height: 1.2; cursor: pointer;
+  transition: background-color .3s, border-color .3s, opacity .4s, transform .3s var(--ease), box-shadow .3s, color .3s;
+  touch-action: manipulation;
+}
+.answer:hover:not(:disabled) { border-color: var(--pink); background: #35214F; }
+.answer:disabled { cursor: default; }
+.letter {
+  flex: none; display: grid; place-items: center;
+  width: 1.9em; height: 1.9em; border-radius: 14px;
+  background: var(--pink); color: #fff; font-weight: 700;
+  transition: background-color .3s, color .3s;
+}
+.answer .txt { flex: 1; min-width: 0; overflow-wrap: break-word; hyphens: manual; }
+.answer .mark { flex: none; width: 1.2em; height: 1.2em; opacity: 0; transition: opacity .3s; }
+.answer.correct { background: var(--gold); border-color: #FFE1AE; color: var(--ink); box-shadow: 0 0 0 4px rgba(246,193,119,.25), 0 0 40px rgba(246,193,119,.45); transform: scale(1.02); }
+.answer.correct .letter { background: var(--ink); color: var(--gold); }
+.answer.correct .mark { opacity: 1; }
+.answer.dim { opacity: .38; }
+.answer.picked-wrong { opacity: .6; border-color: var(--muted); border-style: dashed; }
+.answer.picked-wrong .mark { opacity: 1; }
+
+.explain {
+  margin: 0; font-size: calc(var(--fs-e) * var(--fit, 1)); color: var(--muted); display: flex; gap: .6em; align-items: flex-start;
+  min-height: 2.6em;
+}
+.explain .ico { flex: none; width: 1.2em; height: 1.2em; color: var(--gold); margin-top: .1em; }
+.explain.pending { visibility: hidden; }
+.explain.show { animation: explainIn .45s var(--ease) both; }
+.explain .verdict { color: #fff; font-weight: 700; }
+@keyframes explainIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+.bottombar { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; justify-content: space-between; }
+.hint { color: var(--muted); font-size: var(--fs-chip); }
+.hint b { color: #fff; }
+.teamjudge { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.teamjudge .label { margin: 0 6px 0 0; }
+.team-toggle {
+  display: inline-flex; align-items: center; gap: .5em; min-height: 56px; padding: .4em 1.1em .4em .7em;
+  border-radius: 99px; border: 2px solid var(--border); background: var(--card); font-weight: 600; font-size: var(--fs-chip); cursor: pointer;
+  transition: background-color .2s, border-color .2s;
+}
+.team-toggle .dot { width: 1.1em; height: 1.1em; border-radius: 50%; border: 3px solid var(--team); display: grid; place-items: center; }
+.team-toggle[aria-pressed="true"] { border-color: var(--gold); background: rgba(246,193,119,.14); }
+.team-toggle[aria-pressed="true"] .dot { background: var(--team); }
+.team-toggle[aria-pressed="true"] .dot::after { content: "✓"; font-size: .75em; color: var(--ink); font-weight: 700; }
+#nextBtn { margin-left: auto; font-size: var(--fs-btn); min-width: 9em; }
+
+/* Modus-abhängige Schriftgrößen */
+body {
+  --fs-q: clamp(1.5rem, 2.2vw + 1rem, 3rem);
+  --fs-a: clamp(1.15rem, 1.2vw + .8rem, 2rem);
+  --fs-e: clamp(1.05rem, .8vw + .8rem, 1.6rem);
+  --fs-progress: clamp(1.1rem, 1vw + .7rem, 1.6rem);
+  --fs-chip: clamp(1rem, .5vw + .8rem, 1.25rem);
+  --fs-btn: clamp(1.15rem, .8vw + .9rem, 1.6rem);
+}
+body.mode-beamer, body.mode-team {   /* aus 8 m lesbar */
+  --fs-q: clamp(1.9rem, min(3.9vw, 7.2vh) + .3rem, 5rem);
+  --fs-a: clamp(1.5rem, min(2.9vw, 5.4vh) + .2rem, 3.8rem);
+  --fs-e: clamp(1.25rem, min(2vw, 3.8vh) + .2rem, 2.6rem);
+  --fs-progress: clamp(1.25rem, min(1.8vw, 3.4vh) + .2rem, 2.3rem);
+  --fs-chip: clamp(1.1rem, min(1.4vw, 2.6vh) + .2rem, 1.9rem);
+  --fs-btn: clamp(1.25rem, min(1.6vw, 3vh) + .2rem, 2.1rem);
+}
+
+body.mode-ipad {
+  --fs-q: clamp(1.4rem, min(4.2vw, 4.6vh) + .5rem, 3.2rem);
+  --fs-a: clamp(1.1rem, min(2.8vw, 3.2vh) + .4rem, 2.3rem);
+  --fs-e: clamp(1rem, min(2vw, 2.4vh) + .4rem, 1.7rem);
+}
+body.mode-ipad .answer { min-height: clamp(64px, 9vh, 110px); }
+
+/* ---------- Ergebnis ---------- */
+#result { justify-content: center; align-items: center; text-align: center; gap: clamp(14px, 2.5vh, 26px); }
+.result-card { position: relative; padding: clamp(24px, 4vw, 56px); width: min(100%, 860px); display: flex; flex-direction: column; align-items: center; gap: clamp(10px, 2vh, 18px); overflow: hidden; }
+.result-card .emblem { width: clamp(84px, 13vh, 140px); height: auto; filter: drop-shadow(0 0 24px rgba(246,193,119,.5)); }
+.result-kicker { margin: 0; color: var(--muted); font-size: clamp(1.1rem, 1.6vw, 1.6rem); font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
+.result-score { margin: 0; font-size: clamp(3rem, 9vw, 7rem); font-weight: 700; line-height: 1; }
+.result-score small { font-size: .4em; color: var(--muted); font-weight: 600; }
+.level { margin: 0; font-size: clamp(2rem, 5vw, 4rem); font-weight: 700; color: var(--gold); line-height: 1.1; text-shadow: 0 0 30px rgba(246,193,119,.45); }
+.level-text { margin: 0; color: var(--muted); font-size: clamp(1.05rem, 1.6vw, 1.5rem); max-width: 34em; }
+.level-scale { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 4px 0 0; padding: 0; list-style: none; }
+.level-scale li { padding: .3em .9em; border-radius: 99px; border: 2px solid var(--border); color: var(--muted); font-size: clamp(.9rem, .5vw + .6rem, 1.3rem); }
+.level-scale li.on { border-color: var(--gold); color: var(--ink); background: var(--gold); font-weight: 700; }
+.ranking { list-style: none; margin: 0; padding: 0; width: min(100%, 620px); display: flex; flex-direction: column; gap: 10px; }
+.ranking li { display: flex; align-items: center; gap: 14px; padding: 12px 18px; border-radius: 16px; background: var(--card-2); border: 2px solid var(--border); font-size: clamp(1.15rem, 2vw, 1.8rem); font-weight: 600; text-align: left; }
+.ranking li.win { border-color: var(--gold); box-shadow: 0 0 30px rgba(246,193,119,.25); }
+.ranking .place { width: 1.8em; color: var(--muted); }
+.ranking .dot { width: 1em; height: 1em; border-radius: 50%; background: var(--team); flex: none; }
+.ranking .nm { flex: 1; }
+.ranking .lv { color: var(--muted); font-size: .7em; font-weight: 600; }
+.ranking b { color: var(--gold); }
+.result-actions { display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; position: relative; }
+.result-actions .btn-gold { font-size: clamp(1.25rem, 2vw, 1.7rem); min-height: 64px; padding: .6em 2.2em; }
+#sparkle { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.result-card > *:not(canvas) { position: relative; }
+
+/* ---------- Responsiv ---------- */
+@media (max-width: 900px) {
+  .topbar { flex-wrap: wrap; }
+  .topbar .scores { order: 5; width: 100%; }
+  .start-grid { grid-template-columns: 1fr; }
+  .modes { grid-template-columns: 1fr; }
+  .choice .box { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; }
+  .start-qr { flex-direction: row; text-align: left; }
+  .qr-frame { width: 150px; flex: none; }
+  .start-head { flex-direction: column; text-align: center; }
+}
+@media (max-width: 900px) and (orientation: portrait), (max-width: 640px) {
+  .answers { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .start-qr { flex-direction: column; text-align: center; }
+  .choice .box { flex-direction: column; align-items: flex-start; }
+  .topbar .emblem { display: none; }
+  #nextBtn { width: 100%; }
+}
+@media (max-height: 560px) and (orientation: landscape) {
+  .start-head .emblem { width: 60px; }
+  .qr-frame { width: 150px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body class="mode-beamer">
+
+<div id="stage" aria-hidden="true"></div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="emblem" viewBox="0 0 120 120">
+      <defs>
+        <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#FBD9A2"/><stop offset=".5" stop-color="#F6C177"/><stop offset="1" stop-color="#D99A4E"/>
+        </linearGradient>
+      </defs>
+      <circle cx="60" cy="60" r="55" fill="#1A0F2E" stroke="url(#goldGrad)" stroke-width="6"/>
+      <circle cx="60" cy="60" r="46" fill="none" stroke="#F6C177" stroke-opacity=".35" stroke-width="1.5" stroke-dasharray="2 5"/>
+      <text x="60" y="78" text-anchor="middle" font-family="Poppins, system-ui, sans-serif" font-weight="700" font-size="50" fill="url(#goldGrad)">13</text>
+      <path d="M60 14 l2.2 6.3 6.3 2.2 -6.3 2.2 -2.2 6.3 -2.2 -6.3 -6.3 -2.2 6.3 -2.2z" fill="#F6C177" transform="translate(0,-4) scale(1)" opacity=".9"/>
+    </symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/></symbol>
+    <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 1.5l2.4 8.1 8.1 2.4-8.1 2.4-2.4 8.1-2.4-8.1L1.5 12l8.1-2.4z" fill="currentColor"/></symbol>
+    <symbol id="i-beamer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="2.5" y="4" width="19" height="12" rx="2"/><path d="M12 16v4M8 20.5h8" stroke-linecap="round"/></g></symbol>
+    <symbol id="i-team" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="8" r="3"/><circle cx="16.5" cy="9" r="2.5"/><path d="M2.5 19c.5-3.5 2.8-5.5 5.5-5.5s5 2 5.5 5.5M14 14.2c.8-.5 1.6-.7 2.5-.7 2.3 0 4.2 1.7 4.6 4.8" stroke-linecap="round"/></g></symbol>
+    <symbol id="i-tablet" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="4.5" y="2.5" width="15" height="19" rx="2.5"/><path d="M10.5 18.5h3" stroke-linecap="round"/></g></symbol>
+  </defs>
+</svg>
+
+<main id="app">
+
+  <!-- ===== Start ===== -->
+  <section id="start" class="screen fade-in" aria-labelledby="title">
+    <header class="start-head">
+      <svg class="emblem" viewBox="0 0 120 120" role="img" aria-label="Emblem: die Zahl 13 in einem goldenen Kreis"><use href="#emblem"/></svg>
+      <div>
+        <h1 id="title">Swiftie-<span>Quiz</span></h1>
+        <p id="subtitle">Fragen rund um Taylor Swift und ihre Musik</p>
+      </div>
+    </header>
+
+    <div class="start-grid">
+      <form class="card start-settings" id="setup" onsubmit="return false">
+        <fieldset>
+          <legend>Spielmodus</legend>
+          <div class="modes">
+            <label class="choice">
+              <input type="radio" name="mode" value="beamer" checked>
+              <span class="box"><b><svg class="ico"><use href="#i-beamer"/></svg>Beamer</b><small>Ich klicke vor der Klasse – ihr zeigt mit Fingern.</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="mode" value="team">
+              <span class="box"><b><svg class="ico"><use href="#i-team"/></svg>Teams</b><small>2–4 Teams sammeln Punkte.</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="mode" value="ipad">
+              <span class="box"><b><svg class="ico"><use href="#i-tablet"/></svg>iPad</b><small>Allein spielen und Level holen.</small></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="row">
+          <fieldset id="teamSetup" hidden>
+            <legend>Anzahl Teams</legend>
+            <div class="teamcount">
+              <label class="choice"><input type="radio" name="teams" value="2" checked><span class="box">2</span></label>
+              <label class="choice"><input type="radio" name="teams" value="3"><span class="box">3</span></label>
+              <label class="choice"><input type="radio" name="teams" value="4"><span class="box">4</span></label>
+            </div>
+          </fieldset>
+
+          <label class="switch">
+            <input type="checkbox" id="timerOpt">
+            <span class="track" aria-hidden="true"></span>
+            <span><span id="timerLabel">20-Sekunden-Timer</span><small>Ohne Ticken – nur ein kurzer Ton am Ende</small></span>
+          </label>
+        </div>
+
+        <div class="start-actions">
+          <button type="button" class="btn btn-gold" id="startBtn">Quiz starten</button>
+          <span class="keyhint" id="keyhint">Steuerung: <kbd>1</kbd>–<kbd>4</kbd> oder <kbd>A</kbd>–<kbd>D</kbd> wählen · <kbd>Leertaste</kbd> / <kbd>→</kbd> weiter</span>
+        </div>
+      </form>
+
+      <aside class="card start-qr" aria-labelledby="qrTitle">
+        <div class="qr-frame" id="qr" role="img" aria-label="QR-Code zur Quiz-Seite"></div>
+        <div>
+          <h2 id="qrTitle">Mit dem iPad mitspielen</h2>
+          <p>Kamera auf den Code richten:<br><span id="qrUrl"></span></p>
+        </div>
+      </aside>
+    </div>
+
+    <p class="privacy">Keine Anmeldung, keine Namen, keine Cookies – es wird nichts gespeichert oder verschickt.</p>
+  </section>
+
+  <!-- ===== Quiz ===== -->
+  <section id="quiz" class="screen" hidden aria-label="Quiz">
+    <div class="topbar">
+      <button class="icon-btn" id="quitBtn" type="button" aria-label="Quiz beenden und zum Start"><svg aria-hidden="true"><use href="#i-x"/></svg></button>
+      <div class="progress">
+        <div class="progress-text"><span id="progressText" aria-live="polite">Frage 1 / 15</span><span class="pts" id="ptsText"></span></div>
+        <div class="bar" aria-hidden="true"><i id="progressBar"></i></div>
+        <div class="timer" id="timer" hidden>
+          <div class="bar" aria-hidden="true"><i id="timerBar"></i></div>
+          <span class="timer-num" id="timerNum">20 s</span>
+        </div>
+      </div>
+      <div class="scores" id="scores" hidden></div>
+      <svg class="emblem" viewBox="0 0 120 120" aria-hidden="true"><use href="#emblem"/></svg>
+    </div>
+
+    <article class="card qcard" id="qcard">
+      <h2 class="question" id="question"></h2>
+      <div class="answers" id="answers" role="group" aria-labelledby="question"></div>
+      <p class="explain" id="explain" aria-live="polite"></p>
+    </article>
+
+    <div class="bottombar">
+      <span class="hint" id="hint"></span>
+      <div class="teamjudge" id="teamjudge" hidden></div>
+      <button type="button" class="btn btn-gold" id="nextBtn">Auflösen</button>
+    </div>
+  </section>
+
+  <!-- ===== Ergebnis ===== -->
+  <section id="result" class="screen" hidden aria-labelledby="resultKicker">
+    <div class="card result-card" id="resultCard">
+      <canvas id="sparkle" aria-hidden="true"></canvas>
+      <svg class="emblem" viewBox="0 0 120 120" aria-hidden="true"><use href="#emblem"/></svg>
+      <p class="result-kicker" id="resultKicker">Dein Ergebnis</p>
+      <div id="resultSolo">
+        <p class="result-score" id="resultScore"></p>
+        <p class="level" id="resultLevel"></p>
+        <p class="level-text" id="resultText"></p>
+      </div>
+      <ol class="ranking" id="ranking" hidden></ol>
+      <ul class="level-scale" id="levelScale" aria-label="Alle Swiftie-Level"></ul>
+      <div class="result-actions">
+        <button type="button" class="btn btn-gold" id="againBtn">Nochmal</button>
+        <button type="button" class="btn btn-ghost" id="homeBtn">Zum Start</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+/* =====================================================================
+   QR-Code-Erzeugung (Byte-Modus, Fehlerkorrektur M, Version 1–10)
+   – kleine eigene Umsetzung, keine externe Bibliothek, keine API.
+   ===================================================================== */
+function qrMatrix(text) {
+  const data = Array.from(new TextEncoder().encode(text));
+  const ECC = [0, 10, 16, 26, 18, 24, 16, 18, 22, 22, 26];
+  const BLK = [0, 1, 1, 1, 2, 2, 4, 4, 4, 5, 5];
+  const rawModules = v => {
+    let r = (16 * v + 128) * v + 64;
+    if (v >= 2) { const n = Math.floor(v / 7) + 2; r -= (25 * n - 10) * n - 55; if (v >= 7) r -= 36; }
+    return r;
+  };
+  const dataCap = v => Math.floor(rawModules(v) / 8) - ECC[v] * BLK[v];
+
+  let ver = 1;
+  while (ver <= 10 && 4 + (ver < 10 ? 8 : 16) + data.length * 8 > dataCap(ver) * 8) ver++;
+  if (ver > 10) throw new Error("Text zu lang für den QR-Code");
+
+  // Bitstrom
+  const bits = [];
+  const push = (val, len) => { for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1); };
+  push(4, 4);
+  push(data.length, ver < 10 ? 8 : 16);
+  data.forEach(b => push(b, 8));
+  const capBits = dataCap(ver) * 8;
+  push(0, Math.min(4, capBits - bits.length));
+  push(0, (8 - bits.length % 8) % 8);
+  for (let p = 0xEC; bits.length < capBits; p ^= 0xEC ^ 0x11) push(p, 8);
+  const dataCw = [];
+  for (let i = 0; i < bits.length; i += 8) {
+    let b = 0; for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j]; dataCw.push(b);
+  }
+
+  // Reed-Solomon
+  const gfMul = (x, y) => {
+    let z = 0;
+    for (let i = 7; i >= 0; i--) { z = (z << 1) ^ ((z >>> 7) * 0x11D); z ^= ((y >>> i) & 1) * x; }
+    return z;
+  };
+  const eccLen = ECC[ver], numBlocks = BLK[ver], rawCw = Math.floor(rawModules(ver) / 8);
+  const divisor = new Array(eccLen).fill(0); divisor[eccLen - 1] = 1;
+  let root = 1;
+  for (let i = 0; i < eccLen; i++) {
+    for (let j = 0; j < eccLen; j++) { divisor[j] = gfMul(divisor[j], root); if (j + 1 < eccLen) divisor[j] ^= divisor[j + 1]; }
+    root = gfMul(root, 2);
+  }
+  const remainder = d => {
+    const r = new Array(eccLen).fill(0);
+    for (const b of d) { const f = b ^ r.shift(); r.push(0); divisor.forEach((c, i) => { r[i] ^= gfMul(c, f); }); }
+    return r;
+  };
+  const numShort = numBlocks - rawCw % numBlocks, shortLen = Math.floor(rawCw / numBlocks);
+  const blocks = [];
+  for (let i = 0, k = 0; i < numBlocks; i++) {
+    const len = shortLen - eccLen + (i < numShort ? 0 : 1);
+    const dat = dataCw.slice(k, k + len); k += len;
+    const e = remainder(dat);
+    if (i < numShort) dat.push(0);
+    blocks.push(dat.concat(e));
+  }
+  const all = [];
+  for (let i = 0; i < blocks[0].length; i++)
+    blocks.forEach((b, j) => { if (i !== shortLen - eccLen || j >= numShort) all.push(b[i]); });
+
+  // Matrix
+  const size = ver * 4 + 17;
+  const M = Array.from({ length: size }, () => new Array(size).fill(false));
+  const F = Array.from({ length: size }, () => new Array(size).fill(false));
+  const set = (x, y, d) => { M[y][x] = d; F[y][x] = true; };
+  for (let i = 0; i < size; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+  const finder = (cx, cy) => {
+    for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) {
+      const d = Math.max(Math.abs(dx), Math.abs(dy)), x = cx + dx, y = cy + dy;
+      if (x >= 0 && x < size && y >= 0 && y < size) set(x, y, d !== 2 && d !== 4);
+    }
+  };
+  finder(3, 3); finder(size - 4, 3); finder(3, size - 4);
+  if (ver > 1) {
+    const n = Math.floor(ver / 7) + 2;
+    const step = Math.ceil((ver * 4 + 4) / (n * 2 - 2)) * 2;
+    const pos = [6];
+    for (let p = size - 7; pos.length < n; p -= step) pos.splice(1, 0, p);
+    pos.forEach((a, i) => pos.forEach((b, j) => {
+      if ((i === 0 && j === 0) || (i === 0 && j === n - 1) || (i === n - 1 && j === 0)) return;
+      for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++)
+        set(a + dx, b + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+    }));
+  }
+  const drawFormat = mask => {
+    const d = (0 << 3) | mask;              // Fehlerkorrektur M = 00
+    let r = d; for (let i = 0; i < 10; i++) r = (r << 1) ^ ((r >>> 9) * 0x537);
+    const b = ((d << 10) | r) ^ 0x5412;
+    const g = i => ((b >>> i) & 1) !== 0;
+    for (let i = 0; i <= 5; i++) set(8, i, g(i));
+    set(8, 7, g(6)); set(8, 8, g(7)); set(7, 8, g(8));
+    for (let i = 9; i < 15; i++) set(14 - i, 8, g(i));
+    for (let i = 0; i < 8; i++) set(size - 1 - i, 8, g(i));
+    for (let i = 8; i < 15; i++) set(8, size - 15 + i, g(i));
+    set(8, size - 8, true);
+  };
+  drawFormat(0);
+  if (ver >= 7) {
+    let r = ver; for (let i = 0; i < 12; i++) r = (r << 1) ^ ((r >>> 11) * 0x1F25);
+    const b = (ver << 12) | r;
+    for (let i = 0; i < 18; i++) {
+      const bit = ((b >>> i) & 1) !== 0, a = size - 11 + i % 3, c = Math.floor(i / 3);
+      set(a, c, bit); set(c, a, bit);
+    }
+  }
+  let bi = 0;
+  for (let right = size - 1; right >= 1; right -= 2) {
+    if (right === 6) right = 5;
+    for (let v = 0; v < size; v++) for (let j = 0; j < 2; j++) {
+      const x = right - j, up = ((right + 1) & 2) === 0, y = up ? size - 1 - v : v;
+      if (!F[y][x] && bi < all.length * 8) { M[y][x] = ((all[bi >>> 3] >>> (7 - (bi & 7))) & 1) !== 0; bi++; }
+    }
+  }
+
+  // Maske wählen (vereinfachte Bewertung)
+  const MASKS = [
+    (x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, (x) => x % 3 === 0, (x, y) => (x + y) % 3 === 0,
+    (x, y) => (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0, (x, y) => x * y % 2 + x * y % 3 === 0,
+    (x, y) => (x * y % 2 + x * y % 3) % 2 === 0, (x, y) => ((x + y) % 2 + x * y % 3) % 2 === 0
+  ];
+  const applyMask = m => { for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (!F[y][x] && MASKS[m](x, y)) M[y][x] = !M[y][x]; };
+  const penalty = () => {
+    let p = 0, dark = 0;
+    for (let y = 0; y < size; y++) for (let dir = 0; dir < 2; dir++) {
+      let run = 1;
+      for (let x = 1; x < size; x++) {
+        const a = dir ? M[x - 1][y] : M[y][x - 1], b = dir ? M[x][y] : M[y][x];
+        if (a === b) { run++; if (run === 5) p += 3; else if (run > 5) p++; } else run = 1;
+      }
+    }
+    for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) {
+      if (M[y][x]) dark++;
+      if (x < size - 1 && y < size - 1 && M[y][x] === M[y][x + 1] && M[y][x] === M[y + 1][x] && M[y][x] === M[y + 1][x + 1]) p += 3;
+    }
+    p += Math.floor(Math.abs(dark * 20 - size * size * 10) / (size * size)) * 10;
+    return p;
+  };
+  let best = 0, bestP = Infinity;
+  for (let m = 0; m < 8; m++) {
+    applyMask(m); drawFormat(m);
+    const p = penalty();
+    if (p < bestP) { bestP = p; best = m; }
+    applyMask(m);
+  }
+  applyMask(best); drawFormat(best);
+  return M;
+}
+
+function qrSvg(text) {
+  const M = qrMatrix(text), n = M.length, q = 4;
+  let d = "";
+  for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) if (M[y][x]) d += `M${x + q} ${y + q}h1v1h-1z`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${n + 2 * q} ${n + 2 * q}" shape-rendering="crispEdges" aria-hidden="true"><rect width="100%" height="100%" fill="#fff"/><path d="${d}" fill="#1A0F2E"/></svg>`;
+}
+
+/* =====================================================================
+   Quiz-Logik
+   ===================================================================== */
+const $ = id => document.getElementById(id);
+const LETTERS = ["A", "B", "C", "D"];
+const TEAM_COLORS = ["#D45D9A", "#F6C177", "#8FD3C9", "#A99BFF"];
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+const state = {
+  mode: "beamer", teamCount: 2, timer: false,
+  rounds: [], idx: 0, score: 0, revealed: false, chosen: null,
+  teamScores: [], teamRight: new Set(), timerId: null, timerEnd: 0, busy: false
+};
+
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+
+function showScreen(id) {
+  ["start", "quiz", "result"].forEach(s => {
+    const el = $(s);
+    el.hidden = s !== id;
+    el.classList.remove("fade-in");
+  });
+  void $(id).offsetWidth;
+  $(id).classList.add("fade-in");
+  window.scrollTo(0, 0);
+}
+
+/* ---------- Ton (Web Audio, nur am Timer-Ende) ---------- */
+let audioCtx = null;
+function unlockAudio() {
+  try {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+  } catch (e) { audioCtx = null; }
+}
+function playChime() {
+  if (!audioCtx) return;
+  const t0 = audioCtx.currentTime + 0.02;
+  [[880, 0], [1318.5, 0.16]].forEach(([freq, dt]) => {
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type = "sine"; o.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t0 + dt);
+    g.gain.exponentialRampToValueAtTime(0.25, t0 + dt + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dt + 0.7);
+    o.connect(g).connect(audioCtx.destination);
+    o.start(t0 + dt); o.stop(t0 + dt + 0.75);
+  });
+}
+
+/* ---------- Timer ---------- */
+function stopTimer() { if (state.timerId) { clearInterval(state.timerId); state.timerId = null; } }
+function startTimer() {
+  stopTimer();
+  const box = $("timer");
+  box.hidden = !state.timer;
+  if (!state.timer) return;
+  box.classList.remove("done");
+  state.timerEnd = Date.now() + TIMER_SEKUNDEN * 1000;
+  const tick = () => {
+    const left = Math.max(0, state.timerEnd - Date.now());
+    $("timerBar").style.width = (left / (TIMER_SEKUNDEN * 10)) + "%";
+    $("timerNum").textContent = Math.ceil(left / 1000) + " s";
+    if (left <= 0) {
+      stopTimer();
+      box.classList.add("done");
+      $("timerNum").textContent = "Zeit!";
+      playChime();
+      if (state.mode === "ipad" && !state.revealed) reveal(null);
+    }
+  };
+  tick();
+  state.timerId = setInterval(tick, 100);
+}
+
+/* ---------- Ablauf ---------- */
+function startQuiz() {
+  const form = $("setup");
+  state.mode = form.elements.mode.value;
+  state.teamCount = Number(form.elements.teams.value);
+  state.timer = $("timerOpt").checked;
+  if (state.timer) unlockAudio();
+
+  state.rounds = FRAGEN.map(q => {
+    const order = shuffle([0, 1, 2, 3]);
+    return { q, answers: order.map(i => q.antworten[i]), correct: order.indexOf(q.richtig) };
+  });
+  state.idx = 0; state.score = 0;
+  state.teamScores = new Array(state.mode === "team" ? state.teamCount : 0).fill(0);
+
+  document.body.className = "mode-" + state.mode;
+  $("scores").hidden = state.mode !== "team";
+  renderScores();
+  $("hint").innerHTML = state.mode === "ipad"
+    ? "Tippe auf eine Antwort."
+    : "Zeigt mit Fingern: <b>1</b> = A · <b>2</b> = B · <b>3</b> = C · <b>4</b> = D";
+  showScreen("quiz");
+  renderQuestion(false);
+}
+
+function renderScores(bumpIdx = []) {
+  const box = $("scores");
+  box.innerHTML = "";
+  state.teamScores.forEach((s, i) => {
+    const chip = document.createElement("div");
+    chip.className = "score-chip" + (bumpIdx.includes(i) ? " bump" : "");
+    chip.style.setProperty("--team", TEAM_COLORS[i]);
+    chip.innerHTML = `<span class="dot" aria-hidden="true"></span>Team ${i + 1}: <b>${s}</b>`;
+    box.appendChild(chip);
+  });
+}
+
+function renderQuestion(animate = true) {
+  const card = $("qcard");
+  const draw = () => {
+    const r = state.rounds[state.idx], total = state.rounds.length;
+    state.revealed = false; state.chosen = null; state.teamRight = new Set();
+    $("progressText").textContent = `Frage ${state.idx + 1} / ${total}`;
+    $("progressBar").style.width = (state.idx / total * 100) + "%";
+    $("ptsText").textContent = state.mode === "team" ? "" : `${state.score} ${state.score === 1 ? "Punkt" : "Punkte"}`;
+    $("question").textContent = r.q.frage;
+
+    const box = $("answers");
+    box.innerHTML = "";
+    r.answers.forEach((txt, i) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "answer";
+      b.innerHTML = `<span class="letter" aria-hidden="true">${LETTERS[i]}</span><span class="txt"></span><svg class="mark" aria-hidden="true"><use href="#i-check"/></svg>`;
+      b.querySelector(".txt").textContent = txt;
+      b.setAttribute("aria-label", `${LETTERS[i]}: ${txt}`);
+      b.addEventListener("click", () => choose(i));
+      box.appendChild(b);
+    });
+
+    fillExplain(r, "Leider nicht. ");
+    $("explain").classList.remove("show");
+    $("explain").classList.add("pending");
+    $("teamjudge").hidden = true;
+    $("hint").hidden = false;
+    $("hint").style.visibility = "";
+    $("nextBtn").textContent = state.mode === "ipad" ? "Weiter" : "Auflösen";
+    $("nextBtn").style.visibility = state.mode === "ipad" ? "hidden" : "";
+    startTimer();
+    fitQuiz();
+  };
+
+  if (!animate || reduceMotion) { draw(); return; }
+  state.busy = true;
+  card.classList.remove("in");
+  card.classList.add("out");
+  setTimeout(() => {
+    draw();
+    card.classList.remove("out");
+    void card.offsetWidth;
+    card.classList.add("in");
+    state.busy = false;
+  }, 220);
+}
+
+function fillExplain(r, verdict) {
+  const ex = $("explain");
+  ex.innerHTML = `<svg class="ico" aria-hidden="true"><use href="#i-spark"/></svg><span><span class="verdict"></span><span class="sr-only sr-answer"></span><span class="t"></span></span>`;
+  ex.querySelector(".verdict").textContent = verdict;
+  ex.querySelector(".sr-answer").textContent = `Richtig ist ${LETTERS[r.correct]}: ${r.answers[r.correct]}. `;
+  ex.querySelector(".t").textContent = r.q.erklaerung;
+}
+
+/* Schrift so weit verkleinern, dass die ganze Frage ohne Scrollen auf den Bildschirm passt */
+function fitQuiz() {
+  if ($("quiz").hidden) return;
+  const card = $("qcard"), root = document.documentElement;
+  let fit = 1;
+  card.style.setProperty("--fit", fit);
+  while (root.scrollHeight > window.innerHeight + 1 && fit > 0.62) {
+    fit -= 0.04;
+    card.style.setProperty("--fit", fit.toFixed(2));
+  }
+}
+
+function choose(i) {
+  if (state.revealed || state.busy) return;
+  reveal(i);
+}
+
+function reveal(chosen) {
+  if (state.revealed) return;
+  state.revealed = true; state.chosen = chosen;
+  stopTimer();
+  const r = state.rounds[state.idx];
+  const right = chosen === r.correct;
+  if (right) state.score++;
+
+  [...$("answers").children].forEach((b, i) => {
+    b.disabled = true;
+    if (i === r.correct) b.classList.add("correct");
+    else {
+      b.classList.add("dim");
+      if (i === chosen) {
+        b.classList.add("picked-wrong");
+        b.querySelector(".mark use").setAttribute("href", "#i-x");
+      }
+    }
+  });
+
+  let verdict = "";
+  if (state.mode === "ipad") verdict = chosen === null ? "Zeit um! " : right ? "Richtig! " : "Leider nicht. ";
+  else if (chosen !== null) verdict = right ? "Richtig! " : "";
+  fillExplain(r, verdict);
+  $("explain").classList.remove("pending");
+  $("explain").classList.add("show");
+
+  if (state.mode !== "team") $("ptsText").textContent = `${state.score} ${state.score === 1 ? "Punkt" : "Punkte"}`;
+  $("progressBar").style.width = ((state.idx + 1) / state.rounds.length * 100) + "%";
+
+  if (state.mode === "team") {
+    const tj = $("teamjudge");
+    tj.innerHTML = `<span class="label">Richtig lagen:</span>`;
+    state.teamScores.forEach((_, t) => {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "team-toggle";
+      b.style.setProperty("--team", TEAM_COLORS[t]);
+      b.setAttribute("aria-pressed", "false");
+      b.innerHTML = `<span class="dot" aria-hidden="true"></span>Team ${t + 1}`;
+      b.addEventListener("click", () => {
+        const on = !state.teamRight.has(t);
+        on ? state.teamRight.add(t) : state.teamRight.delete(t);
+        b.setAttribute("aria-pressed", String(on));
+      });
+      tj.appendChild(b);
+    });
+    tj.hidden = false;
+    $("hint").hidden = true;
+  }
+
+  const last = state.idx === state.rounds.length - 1;
+  const nb = $("nextBtn");
+  nb.textContent = last ? "Zum Ergebnis" : "Weiter";
+  nb.style.visibility = "";
+  if (state.mode === "ipad") $("hint").style.visibility = "hidden";
+  fitQuiz();
+  if (state.mode === "ipad") nb.focus({ preventScroll: true });
+  else if (document.activeElement && document.activeElement.classList.contains("answer")) nb.focus({ preventScroll: true });
+}
+
+function next() {
+  if (state.busy) return;
+  if (!state.revealed) { reveal(null); return; }
+  if (state.mode === "team" && state.teamRight.size) {
+    const bumped = [...state.teamRight];
+    bumped.forEach(t => state.teamScores[t]++);
+    renderScores(bumped);
+  }
+  state.idx++;
+  if (state.idx >= state.rounds.length) showResult();
+  else renderQuestion(true);
+}
+
+/* ---------- Ergebnis ---------- */
+function levelFor(score) {
+  const f = state.rounds.length / 15;
+  let lv = LEVELS[0];
+  LEVELS.forEach(l => { if (score >= Math.round(l.ab * f)) lv = l; });
+  return lv;
+}
+
+function showResult() {
+  stopTimer();
+  const total = state.rounds.length;
+  const scale = $("levelScale");
+  scale.innerHTML = "";
+  const f = total / 15;
+  const ranges = LEVELS.map((l, i) => {
+    const from = Math.round(l.ab * f);
+    const to = i < LEVELS.length - 1 ? Math.round(LEVELS[i + 1].ab * f) - 1 : total;
+    return { l, label: from === to ? `${from}` : `${from}–${to}` };
+  });
+
+  if (state.mode === "team") {
+    $("resultKicker").textContent = "Endstand";
+    $("resultSolo").hidden = true;
+    const ol = $("ranking");
+    ol.hidden = false; ol.innerHTML = "";
+    const order = state.teamScores.map((s, i) => ({ s, i })).sort((a, b) => b.s - a.s);
+    const top = order[0].s;
+    let place = 0, prev = null;
+    order.forEach(({ s, i }, k) => {
+      if (s !== prev) { place = k + 1; prev = s; }
+      const li = document.createElement("li");
+      if (s === top) li.className = "win";
+      li.style.setProperty("--team", TEAM_COLORS[i]);
+      li.innerHTML = `<span class="place">${place}.</span><span class="dot" aria-hidden="true"></span><span class="nm">Team ${i + 1}<br><span class="lv">${levelFor(s).name}</span></span><b>${s}</b>`;
+      ol.appendChild(li);
+    });
+    ranges.forEach(({ l, label }) => {
+      const li = document.createElement("li"); li.textContent = `${label} ${l.name}`; scale.appendChild(li);
+    });
+  } else {
+    $("resultKicker").textContent = state.mode === "ipad" ? "Dein Ergebnis" : "Ergebnis der Klasse";
+    $("resultSolo").hidden = false;
+    $("ranking").hidden = true;
+    const lv = levelFor(state.score);
+    $("resultScore").innerHTML = `${state.score}<small> / ${total}</small>`;
+    $("resultLevel").textContent = lv.name;
+    $("resultText").textContent = lv.text;
+    ranges.forEach(({ l, label }) => {
+      const li = document.createElement("li");
+      li.textContent = `${label} ${l.name}`;
+      if (l === lv) { li.className = "on"; li.setAttribute("aria-current", "true"); }
+      scale.appendChild(li);
+    });
+  }
+  showScreen("result");
+  $("againBtn").focus({ preventScroll: true });
+  sparkle();
+}
+
+/* ---------- Glitzer (Canvas, dezent) ---------- */
+let sparkleRaf = null;
+function sparkle() {
+  const cv = $("sparkle"), card = $("resultCard");
+  cancelAnimationFrame(sparkleRaf);
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const w = card.clientWidth, h = card.clientHeight;
+  cv.width = w * dpr; cv.height = h * dpr;
+  const ctx = cv.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const colors = ["#F6C177", "#FFFFFF", "#D8C6EA", "#D45D9A"];
+  const count = reduceMotion ? 18 : 46;
+  const parts = Array.from({ length: count }, () => ({
+    x: Math.random() * w, y: reduceMotion ? Math.random() * h : -20 - Math.random() * h * 0.6,
+    r: 3 + Math.random() * 7, vy: 0.35 + Math.random() * 0.9, vx: (Math.random() - 0.5) * 0.4,
+    ph: Math.random() * Math.PI * 2, c: colors[Math.floor(Math.random() * colors.length)]
+  }));
+  const star = (x, y, r) => {
+    ctx.beginPath();
+    ctx.moveTo(x, y - r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.quadraticCurveTo(x, y, x, y + r);
+    ctx.quadraticCurveTo(x, y, x - r, y);
+    ctx.quadraticCurveTo(x, y, x, y - r);
+    ctx.fill();
+  };
+  const t0 = performance.now(), dur = 5200;
+  const frame = now => {
+    const t = now - t0;
+    ctx.clearRect(0, 0, w, h);
+    const fade = reduceMotion ? 0.7 : Math.max(0, Math.min(1, (dur - t) / 1200));
+    parts.forEach(p => {
+      if (!reduceMotion) { p.y += p.vy; p.x += p.vx; p.ph += 0.08; }
+      const tw = 0.45 + 0.55 * Math.abs(Math.sin(p.ph));
+      ctx.globalAlpha = tw * fade * 0.85;
+      ctx.fillStyle = p.c;
+      star(p.x, p.y, p.r * (0.7 + 0.3 * tw));
+    });
+    ctx.globalAlpha = 1;
+    if (!reduceMotion && t < dur) sparkleRaf = requestAnimationFrame(frame);
+    else if (!reduceMotion) ctx.clearRect(0, 0, w, h);
+  };
+  sparkleRaf = requestAnimationFrame(frame);
+}
+
+/* ---------- Bühnen-Hintergrund erzeugen ---------- */
+function buildStage() {
+  const stage = $("stage");
+  const bokehColors = ["rgba(246,193,119,.55)", "rgba(212,93,154,.5)", "rgba(216,198,234,.4)", "rgba(169,155,255,.35)"];
+  for (let i = 0; i < 14; i++) {
+    const s = document.createElement("span");
+    s.className = "bokeh";
+    const size = 60 + Math.random() * 180;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random() * 100}%;top:${Math.random() * 100}%;` +
+      `--c:${bokehColors[i % bokehColors.length]};--d:${14 + Math.random() * 16}s;--dx:${(Math.random() - .5) * 80}px;--dy:${(Math.random() - .5) * 60}px;` +
+      `margin:-${size / 2}px 0 0 -${size / 2}px;opacity:${0.18 + Math.random() * 0.3}`;
+    stage.appendChild(s);
+  }
+  for (let i = 0; i < 34; i++) {
+    const s = document.createElement("span");
+    s.className = "star";
+    const size = 6 + Math.random() * 14;
+    s.style.cssText = `width:${size}px;height:${size}px;left:${Math.random() * 100}%;top:${Math.random() * 100}%;` +
+      `--c:${Math.random() < .3 ? "#F6C177" : "#FFFFFF"};--d:${2.5 + Math.random() * 4}s;--delay:-${Math.random() * 6}s`;
+    stage.appendChild(s);
+  }
+}
+
+/* ---------- Start ---------- */
+function pageUrl() {
+  const isLocal = !/^https?:$/.test(location.protocol) || /^(localhost|127\.|\[::1\]|0\.0\.0\.0)/.test(location.hostname);
+  return isLocal ? SEITEN_URL : location.origin + location.pathname;
+}
+
+function init() {
+  buildStage();
+  const url = pageUrl();
+  try { $("qr").innerHTML = qrSvg(url + "#ipad"); } catch (e) { $("qr").textContent = url; }
+  $("qrUrl").textContent = url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+  $("subtitle").textContent = `${FRAGEN.length} Fragen rund um Taylor Swift und ihre Musik`;
+  $("timerLabel").textContent = `${TIMER_SEKUNDEN}-Sekunden-Timer`;
+
+  const form = $("setup");
+  const syncMode = () => {
+    const m = form.elements.mode.value;
+    $("teamSetup").hidden = m !== "team";
+    $("keyhint").hidden = m === "ipad";
+  };
+  form.addEventListener("change", syncMode);
+  const fromHash = () => { if (location.hash === "#ipad") { form.elements.mode.value = "ipad"; syncMode(); } };
+  window.addEventListener("hashchange", fromHash);
+  syncMode();
+  fromHash();
+
+  $("startBtn").addEventListener("click", startQuiz);
+  $("nextBtn").addEventListener("click", next);
+  $("againBtn").addEventListener("click", startQuiz);
+  $("homeBtn").addEventListener("click", goHome);
+  let resizeT;
+  window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(fitQuiz, 120); });
+  $("quitBtn").addEventListener("click", goHome);
+
+  document.addEventListener("keydown", e => {
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if ($("quiz").hidden) return;
+    const k = e.key.toLowerCase();
+    const n = ["1", "2", "3", "4"].indexOf(k) >= 0 ? Number(k) - 1 : ["a", "b", "c", "d"].indexOf(k);
+    if (n >= 0) { e.preventDefault(); choose(n); return; }
+    if (k === " " || k === "arrowright" || k === "spacebar") {
+      e.preventDefault();
+      if (!e.repeat) next();
+    }
+  });
+}
+
+function goHome() {
+  stopTimer();
+  cancelAnimationFrame(sparkleRaf);
+  document.body.className = "mode-beamer";
+  showScreen("start");
+  $("startBtn").focus({ preventScroll: true });
+}
+
+init();
+</script>
+</body>
+</html>
